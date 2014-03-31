@@ -5,10 +5,11 @@ import sys, getopt, csv, os, glob
 #from Simple.Taylor.Limb_Provement import generateCuts
 
 def main(argv):
-	i,o,p,a,l,b = False, False, False, False, False, False
-	helpText = 'lp-controller.py -i <inputFile> [-o <outputFile>] [-p <person>] [-a <algorithm>]  [-l <Max Board Length>] [-b <Blade Width>]'
+	i,f,o,p,a,l,b = False, False, False, False, False, False, False
+	helpText = 'lp-controller.py -i <inputFile> [-f <input format>] [-o <outputFile>] [-p <person>] [-a <algorithm>]  [-l <Max Board Length>] [-b <Blade Width>]'
 
 	inFile = ''
+	inFormat = 1
 	outFile = ''
 	person = ''
 	algorithm = ''
@@ -17,7 +18,7 @@ def main(argv):
 	cuts = []
 
 	try:
-		opts, args = getopt.getopt(argv, "hi:o:p:a:l:b",["help","iFile=","oFile=","person=","algo=","board=","blade="])
+		opts, args = getopt.getopt(argv, "hi:f:o:p:a:l:b",["help","iFile=","form=","oFile=","person=","algo=","board=","blade="])
 	except getopt.GetoptError:
 		print helpText
 		sys.exit(2)
@@ -29,6 +30,9 @@ def main(argv):
 		elif opt in ("-i", "--iFile"):
 			i = True
 			inFile = arg
+		elif opt in ("-f", "--form"):
+			f = True;
+			inFormat = int(arg)
 		elif opt in ("-o", "--oFile"):
 			o = True
 			outFile = arg
@@ -46,8 +50,8 @@ def main(argv):
 			blade = arg
 
 	if not (i):
-#		print helpText
-#		sys.exit()
+		print helpText
+		sys.exit()
 
 	# set path/module defaults
 	path1, path2, path3 = "Simple", "Taylor", "Limb_Provement"
@@ -68,13 +72,18 @@ def main(argv):
 	cutter = sys.modules[mName]
 
 
-	if i:
-		print 'Input file is:', inFile
-		with open(inFile, 'rb') as csvfile:
-			cutReader = csv.reader(csvfile, delimiter=',')
+	print 'Input file is:', inFile
+	with open(inFile, 'rb') as csvfile:
+		cutReader = csv.reader(csvfile, delimiter=',')
+		if inFormat == 1:
 			for row in cutReader:
 				cuts.extend(row)
-		cuts = [int(c) for c in cuts]
+		elif inFormat == 2:
+			for row in cutReader:
+				cuts.extend(row[1] * int(row[0]))
+	cuts = [int(c) for c in cuts]
+				
+
 
 #	print "Unsorted:", cuts
 	cuts.sort(reverse=True)
