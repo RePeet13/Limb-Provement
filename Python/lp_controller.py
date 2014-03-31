@@ -84,7 +84,19 @@ def main(argv):
 
 	if o:
 		print 'Output files is:', outFile
-
+		with open(outFile, 'wb') as csvfile:
+			cutwriter = csv.writer(csvfile, delimiter=',')
+			cutwriter.writerow(["Board","Waste","Cuts"])
+			i=1
+			for b in boards:
+#				cItem = ''
+#				for item in b[1]:
+#					cItem = cItem + str(item)
+#				cutwriter.writerow(str(i)+str(b[0])+cItem)
+				row = [i,b[0]]
+				row.extend(b[1])
+				cutwriter.writerow(row)
+				i+=1
 
 
 if __name__ == "__main__":
