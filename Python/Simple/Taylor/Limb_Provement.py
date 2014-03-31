@@ -1,5 +1,4 @@
 def generateCuts(length, blade, cuts):
-	print cuts
 	outCuts = [[length, [] ]] # used, waste, cuts
 	for c in cuts:
 		if (c > length):
@@ -15,8 +14,8 @@ def generateCuts(length, blade, cuts):
 		if not added:
 			outCuts.append([length-c-blade, [c]])
 	print "Success:"
-	print outCuts
 
+	return outCuts
 
 if (__name__ == "__main__"):
 
