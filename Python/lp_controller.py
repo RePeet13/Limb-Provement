@@ -5,8 +5,8 @@ import sys, getopt, csv, os, glob
 #from Simple.Taylor.Limb_Provement import generateCuts
 
 def main(argv):
-	i,o,p,a,l,b,c = False, False, False, False, False, False, False
-	helpText = 'lp-controller.py [-i <inputFile>] [-o <outputFile>] -p <person> -a <algorithm>  [-l <Max Board Length>] [-b <Blade Width>] [-c <Cuts>]'
+	i,o,p,a,l,b = False, False, False, False, False, False
+	helpText = 'lp-controller.py [-i <inputFile>] [-o <outputFile>] -p <person> -a <algorithm>  [-l <Max Board Length>] [-b <Blade Width>]'
 
 	inFile = ''
 	outFile = ''
@@ -17,9 +17,9 @@ def main(argv):
 	cuts = []
 
 	try:
-		opts, args = getopt.getopt(argv, "hi:o:p:a:l:b:c",["help","iFile=","oFile=","person=","algo=","board=","blade=","cuts="])
+		opts, args = getopt.getopt(argv, "hi:o:p:a:l:b",["help","iFile=","oFile=","person=","algo=","board=","blade="])
 	except getopt.GetoptError:
-		print 'lp-controller.py -p <person> -a <algorithm> -l <Max Board Length> -b <Blade Width> -c <Cuts List>'
+		print helpText
 		sys.exit(2)
 
 	for opt, arg in opts:
@@ -44,9 +44,7 @@ def main(argv):
 		elif opt in ("-b", "--blade"):
 			b = True
 			blade = arg
-		elif opt in ("-c", "--cuts"):
-			c = True
-			cuts = arg
+
 	if not (p and a):
 		print helpText
 		sys.exit()
