@@ -6,7 +6,7 @@ import sys, getopt, csv, os, glob
 
 def main(argv):
 	i,o,p,a,l,b = False, False, False, False, False, False
-	helpText = 'lp-controller.py [-i <inputFile>] [-o <outputFile>] -p <person> -a <algorithm>  [-l <Max Board Length>] [-b <Blade Width>]'
+	helpText = 'lp-controller.py -i <inputFile> [-o <outputFile>] [-p <person>] [-a <algorithm>]  [-l <Max Board Length>] [-b <Blade Width>]'
 
 	inFile = ''
 	outFile = ''
@@ -45,9 +45,9 @@ def main(argv):
 			b = True
 			blade = arg
 
-	if not (p and a):
-		print helpText
-		sys.exit()
+	if not (i):
+#		print helpText
+#		sys.exit()
 
 	# set path/module defaults
 	path1, path2, path3 = "Simple", "Taylor", "Limb_Provement"
@@ -55,6 +55,7 @@ def main(argv):
 	if (algorithm.lower() == 'dp'):
 		path1 = "DP"
 	print "Setting algorithm to:", path1
+
 
 	if (person.lower() in ("christa", "c")):
 		path2 = "Christa"
@@ -66,17 +67,16 @@ def main(argv):
 	__import__(mName)
 	cutter = sys.modules[mName]
 
+
 	if i:
-		# TODO read in input file and dispatch generateCuts
 		print 'Input file is:', inFile
 		with open(inFile, 'rb') as csvfile:
 			cutReader = csv.reader(csvfile, delimiter=',')
 			for row in cutReader:
-				# TODO read in rows, concatenate
 				cuts.extend(row)
 		cuts = [int(c) for c in cuts]
 
-	print "Unsorted:", cuts
+#	print "Unsorted:", cuts
 	cuts.sort(reverse=True)
 	print "Sorted:", cuts
 
@@ -89,15 +89,14 @@ def main(argv):
 			cutwriter.writerow(["Board","Waste","Cuts"])
 			i=1
 			for b in boards:
-#				cItem = ''
-#				for item in b[1]:
-#					cItem = cItem + str(item)
-#				cutwriter.writerow(str(i)+str(b[0])+cItem)
 				row = [i,b[0]]
 				row.extend(b[1])
 				cutwriter.writerow(row)
 				i+=1
+	else:
+		print boards
 
+	sys.exit()
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
