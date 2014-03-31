@@ -13,7 +13,7 @@ def generateCuts(length, blade, cuts):
 				break
 		if not added:
 			outCuts.append([length-c-blade, [c]])
-	print "Success:"
+	print "Success!"
 
 	return outCuts
 
