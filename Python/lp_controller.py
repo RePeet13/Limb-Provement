@@ -76,22 +76,14 @@ def main(argv):
 				cuts.extend(row)
 		cuts = [int(c) for c in cuts]
 
-	if c:
-		# TODO take comma separated values, build list, and dispatch generateCuts
-		print cuts
-
+	print "Unsorted:", cuts
 	cuts.sort(reverse=True)
+	print "Sorted:", cuts
 
-	cutter.generateCuts(length, blade, cuts)
-
-#	print cuts
+	boards = cutter.generateCuts(length, blade, cuts)
 
 	if o:
-		print 'Output files is: ', outFile
-
-
-
-	
+		print 'Output files is:', outFile
 
 
 
